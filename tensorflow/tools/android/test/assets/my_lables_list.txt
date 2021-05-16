@@ -1,0 +1,9 @@
+dot_pattern
+horizontal_striped
+check_pattern
+vertical_striped
+leopard
+black
+gray
+blue
+beige
