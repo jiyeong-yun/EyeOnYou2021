@@ -27,8 +27,12 @@ import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.media.ImageReader.OnImageAvailableListener;
 import android.os.SystemClock;
+import android.util.Log;
 import android.util.Size;
 import android.util.TypedValue;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 import java.io.IOException;
 import java.util.LinkedList;
@@ -323,7 +327,48 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
                 cropToFrameTransform.mapRect(location);
                 result.setLocation(location);
                 mappedRecognitions.add(result);
+
+                // ###: DetectorActivity: [[4088] check_pattern (70.9%) RectF(80.00001, 79.77927, 428.08572, 420.97244)]
+                Log.d("###", "DetectorActivity: " + mappedRecognitions);
+                // ###: getTitle: check_pattern, result.getTitle()로는 모두 가져오기 가능
+                Log.d("###", "getTitle: " + mappedRecognitions.get(0).getTitle());
+
+                //TODO: 어디서 넘겨줘야하지? ,,, intent 안됨 ===> 밑에 방법으로 해결
+                /*Intent intent = new Intent(getApplicationContext(), CameraActivity.class);
+                intent.putExtra("label", mappedRecognitions.toString());*/
               }
+
+              //안드로이드 에서는 UI Thread 외부에서 UI 관련 작업을 호출 하면 Exception이 발생한다.
+              //android.view.ViewRoot$CalledFromWrongThreadException: Only the original thread that created a view hierarchy can touch its views.
+              //이와 같은 경우에는 Activity의 runOnUiThread 를 이용하여 해당 작업을 UI Thread 를 호출해 작업하면 문제를 회피할 수 있다.
+              new Thread(new Runnable() {
+                @Override
+                public void run() {
+                  runOnUiThread(new Runnable(){
+                    @Override
+                    public void run() {
+                      // 해당 작업을 처리함
+                      Button btn_det = findViewById(R.id.btn_detect);
+
+                      btn_det.setOnClickListener(new View.OnClickListener() {
+                        TextView labelTextView = findViewById(R.id.labelTextView);
+
+                        @Override
+                        public void onClick(View view) {
+                          //TODO: label만 추출하기 ==> mappedRecognitions.get(0).getTitle()로 해결 (result.getTitle()로는 모두 가져오기 가능)
+                          if(mappedRecognitions.toString() == "[]"){
+                            labelTextView.setText("위치를 다시 잡아주세요");
+                          }else{
+                            labelTextView.setText(mappedRecognitions.get(0).getTitle());
+                          }
+                        }
+                      });
+
+                    }
+                  });
+                }
+              }).start();
+
             }
 
             tracker.trackResults(mappedRecognitions, luminanceCopy, currTimestamp);

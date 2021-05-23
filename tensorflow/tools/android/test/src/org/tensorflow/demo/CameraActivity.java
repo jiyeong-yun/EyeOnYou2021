@@ -36,21 +36,24 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Trace;
-import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.util.Size;
 import android.view.KeyEvent;
 import android.view.Surface;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 import java.nio.ByteBuffer;
 import org.tensorflow.demo.env.ImageUtils;
 import org.tensorflow.demo.env.Logger;
 import org.tensorflow.demo.R; // Explicit import needed for internal Google builds.
+import org.w3c.dom.Text;
 
 public abstract class CameraActivity extends Activity
     implements OnImageAvailableListener, Camera.PreviewCallback {
+
   private static final Logger LOGGER = new Logger();
 
   private static final int PERMISSIONS_REQUEST = 1;
@@ -89,7 +92,7 @@ public abstract class CameraActivity extends Activity
     }
 
     Button btn_rec = findViewById(R.id.btn_recommend);
-    Button btn_det = findViewById(R.id.btn_detect);
+    Button btn_det = findViewById(R.id.btn_detect); // DetectorActivity에서 해줌
 
     btn_rec.setOnClickListener(new View.OnClickListener() {
       @Override
@@ -97,13 +100,6 @@ public abstract class CameraActivity extends Activity
         Intent intent = new Intent(CameraActivity.this, RecActivity.class);
         startActivity(intent);
         //Toast.makeText(CameraActivity.this, "추천 버튼 클릭", Toast.LENGTH_SHORT).show();
-      }
-    });
-
-    btn_det.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View view) {
-        Toast.makeText(CameraActivity.this, "인식 버튼 클릭", Toast.LENGTH_SHORT).show();
       }
     });
 

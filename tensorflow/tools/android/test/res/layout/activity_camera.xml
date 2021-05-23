@@ -24,30 +24,44 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:layout_gravity="bottom" >
 
-        <Button
-            android:id="@+id/btn_recommend"
-            android:layout_width="0dp"
-            android:layout_height="250dp"
-            android:layout_weight="1"
-            android:text="추천"
-            android:textStyle="bold"
-            android:textSize="50sp" />
+        <TextView
+            android:id="@+id/labelTextView"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:textColor="@android:color/white"
+            android:text="패턴"
+            android:textSize="13sp"
+            android:gravity="bottom|center_horizontal"/>
 
-        <Button
-            android:id="@+id/btn_detect"
-            android:layout_width="0dp"
-            android:layout_height="250dp"
-            android:layout_weight="1"
-            android:text="인식"
-            android:textStyle="bold"
-            android:textSize="50sp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="bottom" >
 
+            <Button
+                android:id="@+id/btn_recommend"
+                android:layout_width="0dp"
+                android:layout_height="250dp"
+                android:layout_weight="1"
+                android:text="추천"
+                android:textStyle="bold"
+                android:textSize="50sp" />
 
+            <Button
+                android:id="@+id/btn_detect"
+                android:layout_width="0dp"
+                android:layout_height="250dp"
+                android:layout_weight="1"
+                android:text="인식"
+                android:textStyle="bold"
+                android:textSize="50sp"/>
+            </LinearLayout>
 
     </LinearLayout>
-
 
 </FrameLayout>
 
