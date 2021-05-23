@@ -97,7 +97,7 @@ public abstract class CameraActivity extends Activity
     btn_rec.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
-        Intent intent = new Intent(CameraActivity.this, RecActivity.class);
+        Intent intent = new Intent(getApplicationContext(), activity_weather.class);
         startActivity(intent);
         //Toast.makeText(CameraActivity.this, "추천 버튼 클릭", Toast.LENGTH_SHORT).show();
       }
