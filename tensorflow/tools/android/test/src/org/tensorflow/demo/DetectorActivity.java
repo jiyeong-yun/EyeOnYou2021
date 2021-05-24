@@ -27,6 +27,7 @@ import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.media.ImageReader.OnImageAvailableListener;
 import android.os.SystemClock;
+import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.util.Size;
 import android.util.TypedValue;
@@ -37,6 +38,7 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Vector;
 import org.tensorflow.demo.OverlayView.DrawCallback;
 import org.tensorflow.demo.env.BorderedText;
@@ -50,6 +52,8 @@ import org.tensorflow.demo.R; // Explicit import needed for internal Google buil
  * objects.
  */
 public class DetectorActivity extends CameraActivity implements OnImageAvailableListener {
+  public TextToSpeech tts;
+
   private static final Logger LOGGER = new Logger();
 
   // Configuration values for the prepackaged multibox model.
@@ -341,6 +345,8 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
               //안드로이드 에서는 UI Thread 외부에서 UI 관련 작업을 호출 하면 Exception이 발생한다.
               //android.view.ViewRoot$CalledFromWrongThreadException: Only the original thread that created a view hierarchy can touch its views.
               //이와 같은 경우에는 Activity의 runOnUiThread 를 이용하여 해당 작업을 UI Thread 를 호출해 작업하면 문제를 회피할 수 있다.
+
+
               new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -349,6 +355,20 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
                     public void run() {
                       // 해당 작업을 처리함
                       Button btn_det = findViewById(R.id.btn_detect);
+// TTS를 생성하고 OnInitListener로 초기화 한다.
+                      tts = new TextToSpeech(DetectorActivity.this, new TextToSpeech.OnInitListener() {
+                        @Override
+                        public void onInit(int status) {
+                          if(status == TextToSpeech.SUCCESS) {
+                            // 언어를 선택한다.
+                            int result = tts.setLanguage(Locale.ENGLISH);
+                            //if (result==TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED)
+                            // {
+                            //     Toast.makeText(activity_weather.this, "인식 버튼 클릭", Toast.LENGTH_SHORT).show();
+                            // }
+                          }
+                        }
+                      });
 
                       btn_det.setOnClickListener(new View.OnClickListener() {
                         TextView labelTextView = findViewById(R.id.labelTextView);
@@ -361,6 +381,12 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
                           }else{
                             labelTextView.setText(mappedRecognitions.get(0).getTitle());
                           }
+                          //결과 음성출력
+                          tts.setPitch(2.0f);         // 음성 톤을 2.0배 올려준다.
+                          tts.setSpeechRate(1.0f);    // 읽는 속도는 기본 설정
+
+                          tts.speak(mappedRecognitions.get(0).getTitle(), TextToSpeech.QUEUE_FLUSH, null);
+                          Toast.makeText(DetectorActivity.this, mappedRecognitions.get(0).getTitle(), Toast.LENGTH_SHORT).show();
                         }
                       });
 

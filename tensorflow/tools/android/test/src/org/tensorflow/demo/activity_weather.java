@@ -39,7 +39,7 @@ import java.util.Locale;
 public class activity_weather extends Activity {
 
     public TextToSpeech tts;
-
+    String speechtext;
     //날씨 관련 변수
     TextView tvUpdated, tvStatus, tvTemp, tvTempMin, tvTempMax; //업데이트 시간, 날씨상태, 기온, 최저온도, 최고온도 변수
 
@@ -65,31 +65,6 @@ public class activity_weather extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rec);
         button2 = (Button) findViewById(R.id.button2);
-
-// TTS를 생성하고 OnInitListener로 초기화 한다.
-        tts = new TextToSpeech(activity_weather.this, new TextToSpeech.OnInitListener() {
-            @Override
-            public void onInit(int status) {
-                if(status == TextToSpeech.SUCCESS) {
-                    // 언어를 선택한다.
-                    int result = tts.setLanguage(Locale.ENGLISH);
-                    if (result==TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED)
-                    {
-                        Toast.makeText(activity_weather.this, "인식 버튼 클릭", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            }
-        });
-
-        button2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                tts.setPitch(2.0f);         // 음성 톤을 2.0배 올려준다.
-                tts.setSpeechRate(1.0f);    // 읽는 속도는 기본 설정
-
-                tts.speak("Apple and Banana",TextToSpeech.QUEUE_FLUSH, null);
-            }
-        });
 
 
         //현재 시간 체크
@@ -122,6 +97,34 @@ public class activity_weather extends Activity {
         }
 
         refreshGPSWeather();
+
+
+// TTS를 생성하고 OnInitListener로 초기화 한다.
+        tts = new TextToSpeech(activity_weather.this, new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if(status == TextToSpeech.SUCCESS) {
+                    // 언어를 선택한다.
+                    int result = tts.setLanguage(Locale.KOREA);
+                    //if (result==TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED)
+                   // {
+                   //     Toast.makeText(activity_weather.this, "인식 버튼 클릭", Toast.LENGTH_SHORT).show();
+                   // }
+                }
+            }
+        });
+
+        button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tts.setPitch(2.0f);         // 음성 톤을 2.0배 올려준다.
+                tts.setSpeechRate(1.0f);    // 읽는 속도는 기본 설정
+                speechtext="현재 기온은"+tvTemp.getText().toString()+"로 오늘 날씨는"+tvStatus.getText().toString()+"입니다 최고 기온은 "+tvTempMax.getText().toString()+" 최저 기온은 "+tvTempMin.getText().toString()+"입니다";
+                tts.speak(speechtext, TextToSpeech.QUEUE_FLUSH, null);
+                Toast.makeText(activity_weather.this, speechtext, Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
     @Override
     protected void onDestroy() {
@@ -192,9 +195,9 @@ public class activity_weather extends Activity {
 
                 Long updatedAt = jsonObj.getLong("dt");
                 String updatedAtText = "업데이트 : " + new SimpleDateFormat("yyyy/MM/dd hh:mm a", Locale.KOREA).format(new Date(updatedAt * 1000));
-                String temp = main.getString("temp") + "°C";
-                String tempMin = "최저 기온: " + main.getString("temp_min") + "°C";
-                String tempMax = "최고 기온: " + main.getString("temp_max") + "°C";
+                String temp = main.getString("temp") + "도";
+                String tempMin = main.getString("temp_min") + "도";
+                String tempMax = main.getString("temp_max") + "도";
 
                 //날씨 코드 값 가져오기
                 int id = weather.getInt("id");
@@ -214,7 +217,6 @@ public class activity_weather extends Activity {
                     case 500: case 501: case 502: case 503: case 504: case 511: case 520: case 521: case 522: case 531: case 300: case 301: case 302: case 310: case 311: case 312: case 313: case 314: case 321:
                         tvStatus.setText("비");
 
-
                         //눈
                     case 600: case 601: case 602: case 611: case 612: case 615: case 616: case 620: case 621: case 622:
                         tvStatus.setText("눈");
@@ -226,7 +228,7 @@ public class activity_weather extends Activity {
                         tvStatus.setText("연기");
                         break;
                     case 721:
-                        tvStatus.setText("실안개   ");
+                        tvStatus.setText("실안개");
                         break;
                     case 731: case 741: case 751: case 761: case 762:
                         tvStatus.setText("먼지");
