@@ -377,24 +377,37 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
                         public void onClick(View view) {
                           //TODO: label만 추출하기 ==> mappedRecognitions.get(0).getTitle()로 해결 (result.getTitle()로는 모두 가져오기 가능)
                           if(mappedRecognitions.size() != 0) {
-                            if(mappedRecognitions.get(0).getTitle() == "check_pattern"){
-                              labelTextView.setText("체크 패턴의 옷입니다.");
-                            }else if(mappedRecognitions.get(0).getTitle() == "dot_pattern"){
-                              labelTextView.setText("물방울 패턴의 옷입니다.");
-                            }else if(mappedRecognitions.get(0).getTitle() == "horizontal_striped"){
-                              labelTextView.setText("가로 줄무늬 모양의 옷입니다.");
-                            }else if(mappedRecognitions.get(0).getTitle() == "vertical_striped"){
-                              labelTextView.setText("세로 줄무늬 모양의 옷입니다.");
-                            }else if(mappedRecognitions.get(0).getTitle() == "leopard"){
-                              labelTextView.setText("호피무늬의 옷입니다.");
-                            }else if(mappedRecognitions.get(0).getTitle() == "black"){
-                              labelTextView.setText("검정색 옷입니다.");
-                            }else if(mappedRecognitions.get(0).getTitle() == "gray"){
-                              labelTextView.setText("회색 옷입니다.");
-                            }else if(mappedRecognitions.get(0).getTitle() == "blue"){
-                              labelTextView.setText("파란색 옷입니다.");
-                            }else if(mappedRecognitions.get(0).getTitle() == "beige"){
-                              labelTextView.setText("베이지색 옷입니다.");
+                            switch (mappedRecognitions.get(0).getTitle()) {
+                              case "check_pattern":
+                                labelTextView.setText("체크 패턴의 옷입니다.");
+                                break;
+                              case "dot_pattern":
+                                labelTextView.setText("물방울 패턴의 옷입니다.");
+                                break;
+                              case "horizontal_striped":
+                                labelTextView.setText("가로 줄무늬 모양의 옷입니다.");
+                                break;
+                              case "vertical_striped":
+                                labelTextView.setText("세로 줄무늬 모양의 옷입니다.");
+                                break;
+                              case "leopard":
+                                labelTextView.setText("호피무늬의 옷입니다.");
+                                break;
+                              case "black":
+                                labelTextView.setText("검정색 옷입니다.");
+                                break;
+                              case "gray":
+                                labelTextView.setText("회색 옷입니다.");
+                                break;
+                              case "blue":
+                                labelTextView.setText("파란색 옷입니다.");
+                                break;
+                              case "beige":
+                                labelTextView.setText("베이지색 옷입니다.");
+                                break;
+                              default:
+                                labelTextView.setText("위치를 다시 잡아주세요");
+                                break;
                             }
                           }else{
                             labelTextView.setText("위치를 다시 잡아주세요");
