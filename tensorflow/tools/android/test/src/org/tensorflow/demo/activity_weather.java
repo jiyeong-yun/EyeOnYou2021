@@ -61,8 +61,6 @@ public class activity_weather extends Activity {
     //네트워크
     private boolean isConnected = false;
 
-    TextView result = findViewById(R.id.resultValue);
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rec);
@@ -476,6 +474,5 @@ public class activity_weather extends Activity {
             toast.cancel();
         }
     }
-
 
 }
