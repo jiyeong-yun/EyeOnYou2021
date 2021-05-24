@@ -372,6 +372,8 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
                       });
                       btn_det.setOnClickListener(new View.OnClickListener() {
                         TextView labelTextView = findViewById(R.id.labelTextView);
+                        String label;
+                        int index;
 
                         @Override
                         public void onClick(View view) {
@@ -379,30 +381,48 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
                           if(mappedRecognitions.size() != 0) {
                             switch (mappedRecognitions.get(0).getTitle()) {
                               case "check_pattern":
+                                label = "check_pattern";
+                                index = 1;
                                 labelTextView.setText("체크 패턴의 옷입니다.");
                                 break;
                               case "dot_pattern":
+                                label = "dot_pattern";
+                                index = 2;
                                 labelTextView.setText("물방울 패턴의 옷입니다.");
                                 break;
                               case "horizontal_striped":
+                                label = "horizontal_striped";
+                                index = 3;
                                 labelTextView.setText("가로 줄무늬 모양의 옷입니다.");
                                 break;
                               case "vertical_striped":
+                                label = "vertical_striped";
+                                index = 4;
                                 labelTextView.setText("세로 줄무늬 모양의 옷입니다.");
                                 break;
                               case "leopard":
+                                label = "leopard";
+                                index = 5;
                                 labelTextView.setText("호피무늬의 옷입니다.");
                                 break;
                               case "black":
+                                label = "black";
+                                index = 6;
                                 labelTextView.setText("검정색 옷입니다.");
                                 break;
                               case "gray":
+                                label = "gray";
+                                index = 7;
                                 labelTextView.setText("회색 옷입니다.");
                                 break;
                               case "blue":
+                                label = "blue";
+                                index = 8;
                                 labelTextView.setText("파란색 옷입니다.");
                                 break;
                               case "beige":
+                                label = "beige";
+                                index = 9;
                                 labelTextView.setText("베이지색 옷입니다.");
                                 break;
                               default:
