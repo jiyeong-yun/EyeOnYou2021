@@ -61,6 +61,8 @@ public class activity_weather extends Activity {
     //네트워크
     private boolean isConnected = false;
 
+    TextView result = findViewById(R.id.resultValue);
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rec);
@@ -451,6 +453,28 @@ public class activity_weather extends Activity {
         String day = sDay.format(currentTime);
 
         tvDay.setText(month + "월 " + date + "일 " + day + "요일");
+    }
+
+    // 마지막으로 뒤로가기 버튼을 눌렀던 시간 저장
+    private long backKeyPressedTime = 0;
+    // 첫 번째 뒤로가기 버튼을 누를때 표시
+    private Toast toast;
+
+    @Override
+    public void onBackPressed() {
+        //두번 눌러 종료
+        // 2000 milliseconds = 2 seconds
+        if (System.currentTimeMillis() > backKeyPressedTime + 2000) {
+            backKeyPressedTime = System.currentTimeMillis();
+            toast = Toast.makeText(this, "\'뒤로\' 버튼을 한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT);
+            toast.show();
+            return;
+        }
+
+        if (System.currentTimeMillis() <= backKeyPressedTime + 2000) {
+            finish();
+            toast.cancel();
+        }
     }
 
 
