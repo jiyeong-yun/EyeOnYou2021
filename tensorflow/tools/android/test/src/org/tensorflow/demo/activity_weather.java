@@ -165,7 +165,7 @@ public class activity_weather extends Activity {
 
         @Override
         protected void onPostExecute(String result) {
-            //네트워크 연결 오류 시 앱 꺼짐 현상 막음
+            //네트워크 연결 오류 시 앱 꺼짐 현상 막음!
             if (result == null) {
                 isConnected = true;
                 if (isConnected) {
