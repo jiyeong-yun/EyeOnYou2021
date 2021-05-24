@@ -6,7 +6,7 @@
 
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
+    android:background="@android:color/black"
     android:orientation="vertical"
     android:id="@+id/activity_rec"
     >
@@ -36,6 +36,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:text="날짜"
+                    android:textColor="@android:color/white"
                     android:textSize="25sp" />
 
                 <TextView
@@ -44,6 +45,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:text="위치"
+                    android:textColor="@android:color/white"
                     android:textSize="20sp" />
 
             </LinearLayout>
@@ -62,7 +64,8 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="기온"
-                android:textSize="70sp" />
+                android:textColor="@android:color/white"
+                android:textSize="100sp" />
 
             <TextView
                 android:id="@+id/tvStatus"
@@ -71,7 +74,8 @@
                 android:layout_marginBottom="7dp"
                 android:gravity="center"
                 android:text="날씨상태"
-                android:textSize="30sp" />
+                android:textColor="@android:color/white"
+                android:textSize="80sp" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -85,6 +89,7 @@
                     android:layout_gravity="center"
                     android:layout_marginLeft="10dp"
                     android:text="업데이트날짜"
+                    android:textColor="@android:color/white"
                     android:textSize="10sp" />
 
             </LinearLayout>
