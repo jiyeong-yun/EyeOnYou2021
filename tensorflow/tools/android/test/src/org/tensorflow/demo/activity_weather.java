@@ -460,7 +460,7 @@ public class activity_weather extends Activity {
 
     @Override
     public void onBackPressed() {
-        //두번 눌러 종료
+        /*//두번 눌러 종료
         // 2000 milliseconds = 2 seconds
         if (System.currentTimeMillis() > backKeyPressedTime + 2000) {
             backKeyPressedTime = System.currentTimeMillis();
@@ -475,7 +475,13 @@ public class activity_weather extends Activity {
         if (System.currentTimeMillis() <= backKeyPressedTime + 2000) {
             finish();
             toast.cancel();
-        }
+        }*/
+
+        // InfoActivity 화면으로
+        Intent intent = new Intent(getApplicationContext(), InfoActivity.class);
+        startActivity(intent);
+        finish();
+        
     }
 
 }
