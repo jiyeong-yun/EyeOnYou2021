@@ -64,7 +64,7 @@ public class activity_weather extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rec);
-        button2 = (Button) findViewById(R.id.button2);
+
 
 
         //현재 시간 체크
@@ -114,16 +114,12 @@ public class activity_weather extends Activity {
             }
         });
 
-        button2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
                 tts.setPitch(1.0f);         // 음성 톤을 1.0배 올려준다.
                 tts.setSpeechRate(1.0f);    // 읽는 속도는 기본 설정
                 speechtext="현재 기온은"+tvTemp.getText().toString()+"로 오늘 날씨는"+tvStatus.getText().toString()+"입니다 최고 기온은 "+tvTempMax.getText().toString()+" 최저 기온은 "+tvTempMin.getText().toString()+"입니다";
                 tts.speak(speechtext, TextToSpeech.QUEUE_FLUSH, null);
                 Toast.makeText(activity_weather.this, speechtext, Toast.LENGTH_SHORT).show();
-            }
-        });
+
 
     }
     @Override

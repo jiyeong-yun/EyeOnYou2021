@@ -362,7 +362,7 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
                         public void onInit(int status) {
                           if(status == TextToSpeech.SUCCESS) {
                             // 언어를 선택한다.
-                            int result = tts.setLanguage(Locale.ENGLISH);
+                            int result = tts.setLanguage(Locale.KOREA);
                             //if (result==TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED)
                             // {
                             //     Toast.makeText(activity_weather.this, "인식 버튼 클릭", Toast.LENGTH_SHORT).show();
