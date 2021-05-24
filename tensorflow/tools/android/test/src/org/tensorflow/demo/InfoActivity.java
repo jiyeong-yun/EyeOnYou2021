@@ -39,7 +39,7 @@ public class InfoActivity extends Activity {
         tts.setSpeechRate(1.0f);    // 읽는 속도는 기본 설정
         speechtext="이 어플리케이션은 카메라를 통해 보여진 옷의 무늬 또는 색을 알려줍니다. " +
                 "다음 화면의 오른쪽 하단 버튼을 누르면 옷의 정보를 알려줍니다. " +
-                "왼쪽 하단 버튼을 누르면 날씨 정보를 알려줍니다.";
+                "왼쪽 하단 버튼을 누르면 날씨 정보를 알려줍니다. ";
         tts.speak(speechtext, TextToSpeech.QUEUE_FLUSH, null);
 
     }
@@ -66,6 +66,32 @@ public class InfoActivity extends Activity {
                 break;
         }
         return true;
+    }
+
+    // 마지막으로 뒤로가기 버튼을 눌렀던 시간 저장
+    private long backKeyPressedTime = 0;
+    // 첫 번째 뒤로가기 버튼을 누를때 표시
+    private Toast toast;
+
+    @Override
+    public void onBackPressed() {
+        //두번 눌러 종료
+        // 2000 milliseconds = 2 seconds
+        if (System.currentTimeMillis() > backKeyPressedTime + 5000) {
+            backKeyPressedTime = System.currentTimeMillis();
+            toast = Toast.makeText(this, "\'뒤로\' 버튼을 한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT);
+            toast.show();
+            tts.setPitch(1.0f);         // 음성 톤을 2.0배 올려준다.
+            tts.setSpeechRate(1.0f);    // 읽는 속도는 기본 설정
+            tts.speak("\'뒤로\' 버튼을 한번 더 누르시면 종료됩니다.", TextToSpeech.QUEUE_FLUSH, null);
+            return;
+        }
+
+        if (System.currentTimeMillis() <= backKeyPressedTime + 5000) {
+            finish();
+            toast.cancel();
+        }
+
     }
 
 }
