@@ -16,6 +16,7 @@
 
 package org.tensorflow.demo;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
@@ -355,20 +356,6 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
                     public void run() {
                       // 해당 작업을 처리함
                       Button btn_det = findViewById(R.id.btn_detect);
-// TTS를 생성하고 OnInitListener로 초기화 한다.
-                      tts = new TextToSpeech(DetectorActivity.this, new TextToSpeech.OnInitListener() {
-                        @Override
-                        public void onInit(int status) {
-                          if(status == TextToSpeech.SUCCESS) {
-                            // 언어를 선택한다.
-                            int result = tts.setLanguage(Locale.ENGLISH);
-                            //if (result==TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED)
-                            // {
-                            //     Toast.makeText(activity_weather.this, "인식 버튼 클릭", Toast.LENGTH_SHORT).show();
-                            // }
-                          }
-                        }
-                      });
 
                       btn_det.setOnClickListener(new View.OnClickListener() {
                         TextView labelTextView = findViewById(R.id.labelTextView);
@@ -376,20 +363,31 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
                         @Override
                         public void onClick(View view) {
                           //TODO: label만 추출하기 ==> mappedRecognitions.get(0).getTitle()로 해결 (result.getTitle()로는 모두 가져오기 가능)
-                          if(mappedRecognitions.toString() == "[]"){
-                            labelTextView.setText("위치를 다시 잡아주세요");
+                          if(mappedRecognitions.size() != 0) {
+                            if(mappedRecognitions.get(0).getTitle() == "check_pattern"){
+                              labelTextView.setText("체크 패턴의 옷입니다.");
+                            }else if(mappedRecognitions.get(0).getTitle() == "dot_pattern"){
+                              labelTextView.setText("물방울 패턴의 옷입니다.");
+                            }else if(mappedRecognitions.get(0).getTitle() == "horizontal_striped"){
+                              labelTextView.setText("가로 줄무늬 모양의 옷입니다.");
+                            }else if(mappedRecognitions.get(0).getTitle() == "vertical_striped"){
+                              labelTextView.setText("세로 줄무늬 모양의 옷입니다.");
+                            }else if(mappedRecognitions.get(0).getTitle() == "leopard"){
+                              labelTextView.setText("호피무늬의 옷입니다.");
+                            }else if(mappedRecognitions.get(0).getTitle() == "black"){
+                              labelTextView.setText("검정색 옷입니다.");
+                            }else if(mappedRecognitions.get(0).getTitle() == "gray"){
+                              labelTextView.setText("회색 옷입니다.");
+                            }else if(mappedRecognitions.get(0).getTitle() == "blue"){
+                              labelTextView.setText("파란색 옷입니다.");
+                            }else if(mappedRecognitions.get(0).getTitle() == "beige"){
+                              labelTextView.setText("베이지색 옷입니다.");
+                            }
                           }else{
-                            labelTextView.setText(mappedRecognitions.get(0).getTitle());
+                            labelTextView.setText("위치를 다시 잡아주세요");
                           }
-                          //결과 음성출력
-                          tts.setPitch(2.0f);         // 음성 톤을 2.0배 올려준다.
-                          tts.setSpeechRate(1.0f);    // 읽는 속도는 기본 설정
-
-                          tts.speak(mappedRecognitions.get(0).getTitle(), TextToSpeech.QUEUE_FLUSH, null);
-                          Toast.makeText(DetectorActivity.this, mappedRecognitions.get(0).getTitle(), Toast.LENGTH_SHORT).show();
                         }
                       });
-
                     }
                   });
                 }
