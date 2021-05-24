@@ -357,6 +357,19 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
                       // 해당 작업을 처리함
                       Button btn_det = findViewById(R.id.btn_detect);
 
+                      tts = new TextToSpeech(DetectorActivity.this, new TextToSpeech.OnInitListener() {
+                        @Override
+                        public void onInit(int status) {
+                          if(status == TextToSpeech.SUCCESS) {
+                            // 언어를 선택한다.
+                            int result = tts.setLanguage(Locale.ENGLISH);
+                            //if (result==TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED)
+                            // {
+                            //     Toast.makeText(activity_weather.this, "인식 버튼 클릭", Toast.LENGTH_SHORT).show();
+                            // }
+                          }
+                        }
+                      });
                       btn_det.setOnClickListener(new View.OnClickListener() {
                         TextView labelTextView = findViewById(R.id.labelTextView);
 
@@ -386,6 +399,12 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
                           }else{
                             labelTextView.setText("위치를 다시 잡아주세요");
                           }
+
+                          tts.setPitch(1.0f);         // 음성 톤을 2.0배 올려준다.
+                          tts.setSpeechRate(1.0f);    // 읽는 속도는 기본 설정
+                          tts.speak(labelTextView.getText().toString(), TextToSpeech.QUEUE_FLUSH, null);
+                          Toast.makeText(DetectorActivity.this, labelTextView.getText().toString(), Toast.LENGTH_SHORT).show();
+
                         }
                       });
                     }
