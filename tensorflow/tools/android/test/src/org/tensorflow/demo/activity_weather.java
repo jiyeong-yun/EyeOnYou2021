@@ -466,6 +466,9 @@ public class activity_weather extends Activity {
             backKeyPressedTime = System.currentTimeMillis();
             toast = Toast.makeText(this, "\'뒤로\' 버튼을 한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT);
             toast.show();
+            tts.setPitch(1.0f);         // 음성 톤을 2.0배 올려준다.
+            tts.setSpeechRate(1.0f);    // 읽는 속도는 기본 설정
+            tts.speak("\'뒤로\' 버튼을 한번 더 누르시면 종료됩니다.", TextToSpeech.QUEUE_FLUSH, null);
             return;
         }
 
