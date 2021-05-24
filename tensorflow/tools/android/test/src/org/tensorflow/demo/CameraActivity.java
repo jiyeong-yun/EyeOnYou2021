@@ -36,6 +36,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Trace;
+import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.util.Size;
 import android.view.KeyEvent;
@@ -46,6 +47,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.nio.ByteBuffer;
+import java.util.Locale;
+
 import org.tensorflow.demo.env.ImageUtils;
 import org.tensorflow.demo.env.Logger;
 import org.tensorflow.demo.R; // Explicit import needed for internal Google builds.
@@ -53,7 +56,7 @@ import org.w3c.dom.Text;
 
 public abstract class CameraActivity extends Activity
     implements OnImageAvailableListener, Camera.PreviewCallback {
-
+  public TextToSpeech tts;
   private static final Logger LOGGER = new Logger();
 
   private static final int PERMISSIONS_REQUEST = 1;
@@ -93,6 +96,33 @@ public abstract class CameraActivity extends Activity
 
     Button btn_rec = findViewById(R.id.btn_recommend);
     Button btn_det = findViewById(R.id.btn_detect); // DetectorActivity에서 해줌
+    final TextView labelTextView = findViewById(R.id.labelTextView);
+
+// TTS를 생성하고 OnInitListener로 초기화 한다.
+    tts = new TextToSpeech(CameraActivity.this, new TextToSpeech.OnInitListener() {
+      @Override
+      public void onInit(int status) {
+        if(status == TextToSpeech.SUCCESS) {
+          // 언어를 선택한다.
+          int result = tts.setLanguage(Locale.KOREA);
+          //if (result==TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED)
+          // {
+          //     Toast.makeText(activity_weather.this, "인식 버튼 클릭", Toast.LENGTH_SHORT).show();
+          // }
+        }
+      }
+    });
+
+    btn_det.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View view) {
+        tts.setPitch(1.0f);         // 음성 톤을 2.0배 올려준다.
+        tts.setSpeechRate(1.0f);    // 읽는 속도는 기본 설정
+        tts.speak(labelTextView.getText().toString(), TextToSpeech.QUEUE_FLUSH, null);
+        Toast.makeText(CameraActivity.this, labelTextView.getText().toString(), Toast.LENGTH_SHORT).show();
+
+      }
+    });
 
     btn_rec.setOnClickListener(new View.OnClickListener() {
       @Override
@@ -281,6 +311,13 @@ public abstract class CameraActivity extends Activity
   public synchronized void onDestroy() {
     LOGGER.d("onDestroy " + this);
     super.onDestroy();
+
+    // TTS 객체가 남아있다면 실행을 중지하고 메모리에서 제거한다.
+    if(tts != null){
+      tts.stop();
+      tts.shutdown();
+      tts = null;
+    }
   }
 
   protected synchronized void runInBackground(final Runnable r) {
