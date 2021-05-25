@@ -43,6 +43,8 @@ public class activity_weather extends Activity {
 
     public TextToSpeech tts;
     String speechtext;
+    Button back;
+
     //날씨 관련 변수
     TextView tvUpdated, tvStatus, tvTemp, tvTempMin, tvTempMax; //업데이트 시간, 날씨상태, 기온, 최저온도, 최고온도 변수
 
@@ -118,7 +120,15 @@ public class activity_weather extends Activity {
             }
         });
 
-
+        back = findViewById(R.id.backToCam);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), DetectorActivity.class);
+                finish();
+                startActivity(intent);
+            }
+        });
 
 
 
@@ -130,7 +140,8 @@ public class activity_weather extends Activity {
                 //손가락으로 화면을 누르기 시작했을 때 할 일
                 tts.setPitch(1.0f);         // 음성 톤을 1.0배 올려준다.
                 tts.setSpeechRate(1.0f);    // 읽는 속도는 기본 설정
-                speechtext="현재 기온은"+tvTemp.getText().toString()+"로 오늘 날씨는"+tvStatus.getText().toString()+"입니다 최고 기온은 "+tvTempMax.getText().toString()+" 최저 기온은 "+tvTempMin.getText().toString()+"입니다";
+                speechtext="현재 기온은 "+tvTemp.getText().toString()+"로 오늘 날씨는 "+tvStatus.getText().toString()+"입니다. " +
+                        "옷을 재인식하고 싶으시면 하단의 버튼을 눌러주세요.";
                 tts.speak(speechtext, TextToSpeech.QUEUE_FLUSH, null);
                 Toast.makeText(activity_weather.this, speechtext, Toast.LENGTH_SHORT).show();
 
@@ -495,17 +506,17 @@ public class activity_weather extends Activity {
     public void onBackPressed() {
         //두번 눌러 종료
         // 2000 milliseconds = 2 seconds
-        if (System.currentTimeMillis() > backKeyPressedTime + 6000) {
+        if (System.currentTimeMillis() > backKeyPressedTime + 5000) {
             backKeyPressedTime = System.currentTimeMillis();
-            toast = Toast.makeText(this, "\'뒤로\' 버튼을 한번 더 누르시면 첫 화면으로 돌아갑니다.", Toast.LENGTH_SHORT);
+            toast = Toast.makeText(this, "\'뒤로\' 버튼을 한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT);
             toast.show();
             tts.setPitch(1.0f);         // 음성 톤을 2.0배 올려준다.
             tts.setSpeechRate(1.0f);    // 읽는 속도는 기본 설정
-            tts.speak("\'뒤로\' 버튼을 한번 더 누르시면 첫 화면으로 돌아갑니다.", TextToSpeech.QUEUE_FLUSH, null);
+            tts.speak("\'뒤로\' 버튼을 한번 더 누르시면 종료됩니다.", TextToSpeech.QUEUE_FLUSH, null);
             return;
         }
 
-        if (System.currentTimeMillis() <= backKeyPressedTime + 6000) {
+        if (System.currentTimeMillis() <= backKeyPressedTime + 5000) {
             Intent intent = new Intent(getApplicationContext(), InfoActivity.class);
             startActivity(intent);
             finish();

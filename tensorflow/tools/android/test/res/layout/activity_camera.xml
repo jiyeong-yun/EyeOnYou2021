@@ -47,7 +47,8 @@
                 android:layout_width="0dp"
                 android:layout_height="250dp"
                 android:layout_weight="1"
-                android:text="추천"
+                android:layout_marginRight="10dp"
+                android:text="날씨"
                 android:textStyle="bold"
                 android:textSize="50sp" />
 
@@ -56,6 +57,7 @@
                 android:layout_width="0dp"
                 android:layout_height="250dp"
                 android:layout_weight="1"
+                android:layout_marginLeft="10dp"
                 android:text="인식"
                 android:textStyle="bold"
                 android:textSize="50sp"/>

@@ -136,6 +136,17 @@
                 android:textSize="15sp" />
         </LinearLayout>
 
+        <Button
+            android:id="@+id/backToCam"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="70dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_gravity="bottom"
+            android:textSize="50sp"
+            android:text="재인식 하기" />
+
     </LinearLayout>
 
 </LinearLayout>
