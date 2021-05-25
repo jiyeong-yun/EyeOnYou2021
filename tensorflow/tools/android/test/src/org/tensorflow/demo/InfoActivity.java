@@ -59,6 +59,7 @@ public class InfoActivity extends Activity {
                                     speechtext="이 어플리케이션은 카메라를 통해 보여진 옷의 무늬 또는 색을 알려줍니다. " +
                                             "다음 화면의 오른쪽 하단 버튼을 누르면 옷의 정보를 알려줍니다. " +
                                             "다음 화면의 왼쪽 하단 버튼을 누르면 날씨 정보를 알려줍니다. " +
+                                            "어플안의 모든 버튼을 길게 누르실 경우 어떤 버튼인지 음성으로 안내됩니다. " +
                                             "다음 화면으로 넘어가시려면 화면을 빠르게 두번 클릭해주세요. " +
                                             "다시 듣기를 원하시면 화면을 한 번 클릭해주세요.";
                                     tts.speak(speechtext, TextToSpeech.QUEUE_FLUSH, null);

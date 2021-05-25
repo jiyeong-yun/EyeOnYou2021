@@ -114,38 +114,34 @@ public abstract class CameraActivity extends Activity
       }
     });
 
-    btn_det.setOnTouchListener(new View.OnTouchListener() {
+    btn_det.setOnLongClickListener(new View.OnLongClickListener() {
       @Override
-      public boolean onTouch(View view, MotionEvent motionEvent) {
+      public boolean onLongClick(View view) {
         tts.setPitch(1.0f);         // 음성 톤을 1.0배 올려준다.
         tts.setSpeechRate(1.0f);    // 읽는 속도는 기본 설정
 
-        tts.speak("추천", TextToSpeech.QUEUE_FLUSH, null);
-        Toast.makeText(CameraActivity.this, "인식버튼클릭", Toast.LENGTH_SHORT).show();
-
+        tts.speak("인식 버튼 입니다. 옷의 정보를 알려줍니다.", TextToSpeech.QUEUE_FLUSH, null);
         return false;
       }
     });
 
-    btn_rec.setOnTouchListener(new View.OnTouchListener() {
+    btn_rec.setOnLongClickListener(new View.OnLongClickListener() {
       @Override
-      public boolean onTouch(View view, MotionEvent motionEvent) {
+      public boolean onLongClick(View view) {
         tts.setPitch(1.0f);         // 음성 톤을 1.0배 올려준다.
         tts.setSpeechRate(1.0f);    // 읽는 속도는 기본 설정
 
-        tts.speak("추천", TextToSpeech.QUEUE_FLUSH, null);
-        Toast.makeText(CameraActivity.this, "추천버튼클릭", Toast.LENGTH_SHORT).show();
-
+        tts.speak("날씨 버튼입니다. 날씨 화면으로 넘어갑니다.", TextToSpeech.QUEUE_FLUSH, null);
         return false;
       }
     });
+
 
     btn_rec.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
         Intent intent = new Intent(getApplicationContext(), activity_weather.class);
         startActivity(intent);
-        //Toast.makeText(CameraActivity.this, "추천 버튼 클릭", Toast.LENGTH_SHORT).show();
       }
     });
 

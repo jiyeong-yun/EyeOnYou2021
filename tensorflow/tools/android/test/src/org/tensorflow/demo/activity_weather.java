@@ -130,6 +130,17 @@ public class activity_weather extends Activity {
             }
         });
 
+        back.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                tts.setPitch(1.0f);         // 음성 톤을 1.0배 올려준다.
+                tts.setSpeechRate(1.0f);    // 읽는 속도는 기본 설정
+
+                tts.speak("재인식 버튼입니다.", TextToSpeech.QUEUE_FLUSH, null);
+                return false;
+            }
+        });
+
 
 
     }
