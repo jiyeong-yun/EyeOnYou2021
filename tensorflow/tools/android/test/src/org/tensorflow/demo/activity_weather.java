@@ -528,8 +528,6 @@ public class activity_weather extends Activity {
         }
 
         if (System.currentTimeMillis() <= backKeyPressedTime + 5000) {
-            Intent intent = new Intent(getApplicationContext(), InfoActivity.class);
-            startActivity(intent);
             finish();
             toast.cancel();
         }

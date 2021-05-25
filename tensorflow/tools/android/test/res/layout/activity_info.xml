@@ -7,11 +7,12 @@
     android:orientation="vertical"
     tools:context=".InfoActivity">
 
-    <TextView
+    <ImageView
         android:id="@+id/textView2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Eye On You"
+        android:background="@android:color/black"
+        android:src="@drawable/eyeonyou"
         android:gravity="center"
         android:textSize="80sp"/>
 </LinearLayout>
