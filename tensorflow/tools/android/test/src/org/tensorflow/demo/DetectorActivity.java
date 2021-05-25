@@ -17,6 +17,7 @@
 package org.tensorflow.demo;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
@@ -47,12 +48,15 @@ import org.tensorflow.demo.env.ImageUtils;
 import org.tensorflow.demo.env.Logger;
 import org.tensorflow.demo.tracking.MultiBoxTracker;
 import org.tensorflow.demo.R; // Explicit import needed for internal Google builds.
-
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 /**
  * An activity that uses a TensorFlowMultiBoxDetector and ObjectTracker to detect and then track
  * objects.
  */
 public class DetectorActivity extends CameraActivity implements OnImageAvailableListener {
+
+
   public TextToSpeech tts;
 
   private static final Logger LOGGER = new Logger();
@@ -356,6 +360,9 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
                     public void run() {
                       // 해당 작업을 처리함
                       Button btn_det = findViewById(R.id.btn_detect);
+                      //공유변수 선언(날씨로 옷정보 전송하기)
+                      SharedPreferences userinfo = getSharedPreferences("userinfo", MODE_PRIVATE);
+                      userinfo.getString("clothes_name", null);
 
                       tts = new TextToSpeech(DetectorActivity.this, new TextToSpeech.OnInitListener() {
                         @Override
@@ -377,9 +384,21 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
 
                         @Override
                         public void onClick(View view) {
+
+
+
                           //TODO: label만 추출하기 ==> mappedRecognitions.get(0).getTitle()로 해결 (result.getTitle()로는 모두 가져오기 가능)
                           if(mappedRecognitions.size() != 0) {
-                            switch (mappedRecognitions.get(0).getTitle()) {
+
+                            //activity_weather에서  label을 사용하기 위한 공유 변수
+                            String name=mappedRecognitions.get(0).getTitle();
+
+                            SharedPreferences userinfo= getSharedPreferences("userinfo", MODE_PRIVATE);
+                            SharedPreferences.Editor editor= userinfo.edit();
+                            editor.putString("username", name);
+                            editor.commit();
+
+                            switch (name) {
                               case "check_pattern":
                                 label = "check_pattern";
                                 index = 1;

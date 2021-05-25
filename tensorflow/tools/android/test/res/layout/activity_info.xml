@@ -11,7 +11,7 @@
         android:id="@+id/textView2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="TextView"
+        android:text="Eye On You"
         android:gravity="center"
-        android:textSize="100sp"/>
+        android:textSize="80sp"/>
 </LinearLayout>

@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -13,6 +14,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -35,7 +37,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 public class activity_weather extends Activity {
 
     public TextToSpeech tts;
@@ -57,6 +60,7 @@ public class activity_weather extends Activity {
     String[] REQUIRED_PERMISSIONS = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
     static TextView tvGPS; //gps로 받은 주소값 변수
     private Button button2;
+    TextView nametext;
 
     //네트워크
     private boolean isConnected = false;
@@ -65,7 +69,7 @@ public class activity_weather extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rec);
 
-
+     
 
         //현재 시간 체크
         long now = System.currentTimeMillis();
@@ -114,14 +118,43 @@ public class activity_weather extends Activity {
             }
         });
 
+
+
+
+
+    }
+
+    public boolean onTouchEvent(MotionEvent event) {
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                //손가락으로 화면을 누르기 시작했을 때 할 일
                 tts.setPitch(1.0f);         // 음성 톤을 1.0배 올려준다.
                 tts.setSpeechRate(1.0f);    // 읽는 속도는 기본 설정
                 speechtext="현재 기온은"+tvTemp.getText().toString()+"로 오늘 날씨는"+tvStatus.getText().toString()+"입니다 최고 기온은 "+tvTempMax.getText().toString()+" 최저 기온은 "+tvTempMin.getText().toString()+"입니다";
                 tts.speak(speechtext, TextToSpeech.QUEUE_FLUSH, null);
                 Toast.makeText(activity_weather.this, speechtext, Toast.LENGTH_SHORT).show();
 
+                nametext = findViewById(R.id.textView3);
+                SharedPreferences userinfo = getSharedPreferences("userinfo", MODE_PRIVATE);
+                String inputName = userinfo.getString("username","");
+                nametext.setText(inputName + "이다");
 
+                break;
+            case MotionEvent.ACTION_MOVE:
+                //터치 후 손가락을 움직일 때 할 일
+                break;
+            case MotionEvent.ACTION_UP:
+                //손가락을 화면에서 뗄 때 할 일
+                break;
+            case MotionEvent.ACTION_CANCEL:
+                // 터치가 취소될 때 할 일
+                break;
+            default:
+                break;
+        }
+        return true;
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
