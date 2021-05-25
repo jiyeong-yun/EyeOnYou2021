@@ -35,24 +35,49 @@ public class InfoActivity extends Activity {
             }
         });
 
-        tts.setPitch(1.0f);         // 음성 톤을 1.0배 올려준다.
-        tts.setSpeechRate(1.0f);    // 읽는 속도는 기본 설정
-        speechtext="이 어플리케이션은 카메라를 통해 보여진 옷의 무늬 또는 색을 알려줍니다. " +
-                "다음 화면의 오른쪽 하단 버튼을 누르면 옷의 정보를 알려줍니다. " +
-                "왼쪽 하단 버튼을 누르면 날씨 정보를 알려줍니다. ";
-        tts.speak(speechtext, TextToSpeech.QUEUE_FLUSH, null);
-
     }
+
+    private boolean waitDouble = true;
+    private static final int DOUBLE_CLICK_TIME = 200; // double click timer
+
 
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                //손가락으로 화면을 누르기 시작했을 때 할 일
-                //인식 화면으로 넘어감
-                Intent intent = new Intent(getApplicationContext(), DetectorActivity.class);
-                startActivity(intent);
-                finish();
-                break;
+                if (waitDouble == true) {
+                    waitDouble = false;
+                    Thread thread = new Thread() {
+                        @Override
+                        public void run() {
+                            try {
+                                sleep(DOUBLE_CLICK_TIME);
+                                if (waitDouble == false) {
+                                    waitDouble = true;
+                                    //single click event
+                                    tts.setPitch(1.0f);         // 음성 톤을 1.0배 올려준다.
+                                    tts.setSpeechRate(1.0f);    // 읽는 속도는 기본 설정
+                                    speechtext="이 어플리케이션은 카메라를 통해 보여진 옷의 무늬 또는 색을 알려줍니다. " +
+                                            "다음 화면의 오른쪽 하단 버튼을 누르면 옷의 정보를 알려줍니다. " +
+                                            "다음 화면의 왼쪽 하단 버튼을 누르면 날씨 정보를 알려줍니다. " +
+                                            "다음 화면으로 넘어가시려면 화면을 빠르게 두번 클릭해주세요. " +
+                                            "다시 듣기를 원하시면 화면을 한 번 클릭해주세요.";
+                                    tts.speak(speechtext, TextToSpeech.QUEUE_FLUSH, null);
+                                }
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    };
+                    thread.start();
+                } else {
+                    waitDouble = true;
+                    //double click event
+                    Intent intent = new Intent(getApplicationContext(), DetectorActivity.class);
+                    startActivity(intent);
+                    tts.stop();
+                    finish();
+                }
+
             case MotionEvent.ACTION_MOVE:
                 //터치 후 손가락을 움직일 때 할 일
                 break;
