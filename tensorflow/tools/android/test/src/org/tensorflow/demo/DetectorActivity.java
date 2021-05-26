@@ -376,7 +376,8 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
                       });
                       btn_det.setOnClickListener(new View.OnClickListener() {
                         TextView labelTextView = findViewById(R.id.labelTextView);
-                        String label;
+//                        TextView labelTextView2 = findViewById(R.id.labelTextView2);
+                        String label, name, name2;
                         int index;
 
                         @Override
@@ -388,7 +389,11 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
                           if(mappedRecognitions.size() != 0) {
 
                             //activity_weather에서  label을 사용하기 위한 공유 변수
-                            String name=mappedRecognitions.get(0).getTitle();
+                            name = mappedRecognitions.get(0).getTitle();
+
+                            /*if(mappedRecognitions.size() > 1) {
+                              name2 = mappedRecognitions.get(1).getTitle();
+                            }*/
 
                             SharedPreferences userinfo= getSharedPreferences("userinfo", MODE_PRIVATE);
                             SharedPreferences.Editor editor= userinfo.edit();
@@ -399,59 +404,121 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
                               case "check_pattern":
                                 label = "check_pattern";
                                 index = 1;
-                                labelTextView.setText("체크 패턴의 옷입니다.");
+                                labelTextView.setText("체크 패턴의 옷입니다.\n");
                                 break;
                               case "dot_pattern":
                                 label = "dot_pattern";
                                 index = 2;
-                                labelTextView.setText("물방울 패턴의 옷입니다.");
+                                labelTextView.setText("물방울 패턴의 옷입니다.\n");
                                 break;
                               case "horizontal_striped":
                                 label = "horizontal_striped";
                                 index = 3;
-                                labelTextView.setText("가로 줄무늬 모양의 옷입니다.");
+                                labelTextView.setText("가로 줄무늬 모양의 옷입니다.\n");
                                 break;
                               case "vertical_striped":
                                 label = "vertical_striped";
                                 index = 4;
-                                labelTextView.setText("세로 줄무늬 모양의 옷입니다.");
+                                labelTextView.setText("세로 줄무늬 모양의 옷입니다.\n");
                                 break;
                               case "leopard":
                                 label = "leopard";
                                 index = 5;
-                                labelTextView.setText("호피무늬의 옷입니다.");
+                                labelTextView.setText("호피무늬의 옷입니다.\n");
                                 break;
                               case "black":
                                 label = "black";
                                 index = 6;
-                                labelTextView.setText("검정색 옷입니다.");
+                                labelTextView.setText("검정색 옷입니다.\n");
                                 break;
                               case "gray":
                                 label = "gray";
                                 index = 7;
-                                labelTextView.setText("회색 옷입니다.");
+                                labelTextView.setText("회색 옷입니다.\n");
                                 break;
                               case "blue":
                                 label = "blue";
                                 index = 8;
-                                labelTextView.setText("파란색 옷입니다.");
+                                labelTextView.setText("파란색 옷입니다.\n");
                                 break;
                               case "beige":
                                 label = "beige";
                                 index = 9;
-                                labelTextView.setText("베이지색 옷입니다.");
+                                labelTextView.setText("베이지색 옷입니다.\n");
                                 break;
                               default:
-                                labelTextView.setText("위치를 다시 잡아주세요");
+                                labelTextView.setText("위치를 다시 잡아주세요.\n");
                                 break;
                             }
                           }else{
-                            labelTextView.setText("위치를 다시 잡아주세요");
+                            labelTextView.setText("위치를 다시 잡아주세요.\n");
                           }
+
+/*                          if(name2 != null) {
+                            SharedPreferences userinfo2= getSharedPreferences("userinfo2", MODE_PRIVATE);
+                            SharedPreferences.Editor editor= userinfo2.edit();
+                            editor.putString("username2", name2);
+                            editor.commit();
+
+                            switch (name2) {
+                              case "check_pattern":
+                                label = "check_pattern";
+                                index = 1;
+                                labelTextView2.setText("체크 패턴의 옷입니다.");
+                                break;
+                              case "dot_pattern":
+                                label = "dot_pattern";
+                                index = 2;
+                                labelTextView2.setText("물방울 패턴의 옷입니다.");
+                                break;
+                              case "horizontal_striped":
+                                label = "horizontal_striped";
+                                index = 3;
+                                labelTextView2.setText("가로 줄무늬 모양의 옷입니다.");
+                                break;
+                              case "vertical_striped":
+                                label = "vertical_striped";
+                                index = 4;
+                                labelTextView2.setText("세로 줄무늬 모양의 옷입니다.");
+                                break;
+                              case "leopard":
+                                label = "leopard";
+                                index = 5;
+                                labelTextView2.setText("호피무늬의 옷입니다.");
+                                break;
+                              case "black":
+                                label = "black";
+                                index = 6;
+                                labelTextView2.setText("검정색 옷입니다.");
+                                break;
+                              case "gray":
+                                label = "gray";
+                                index = 7;
+                                labelTextView2.setText("회색 옷입니다.");
+                                break;
+                              case "blue":
+                                label = "blue";
+                                index = 8;
+                                labelTextView2.setText("파란색 옷입니다.");
+                                break;
+                              case "beige":
+                                label = "beige";
+                                index = 9;
+                                labelTextView2.setText("베이지색 옷입니다.");
+                                break;
+                              default:
+                                labelTextView2.setText("위치를 다시 잡아주세요.");
+                                break;
+                            }
+                          }else{
+                            labelTextView2.setText("위치를 다시 잡아주세요.");
+                          }*/
+
 
                           tts.setPitch(1.0f);         // 음성 톤을 2.0배 올려준다.
                           tts.setSpeechRate(1.0f);    // 읽는 속도는 기본 설정
                           tts.speak(labelTextView.getText().toString(), TextToSpeech.QUEUE_FLUSH, null);
+//                          tts.speak(labelTextView2.getText().toString(), TextToSpeech.QUEUE_FLUSH, null);
 
                         }
                       });
