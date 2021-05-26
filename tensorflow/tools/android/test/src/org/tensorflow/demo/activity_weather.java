@@ -105,7 +105,7 @@ public class activity_weather extends Activity {
         refreshGPSWeather();
 
 
-// TTS를 생성하고 OnInitListener로 초기화 한다.
+        // TTS를 생성하고 OnInitListener로 초기화 한다.
         tts = new TextToSpeech(activity_weather.this, new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {
@@ -153,13 +153,13 @@ public class activity_weather extends Activity {
                 nametext = findViewById(R.id.textView3);
                 SharedPreferences userinfo = getSharedPreferences("userinfo", MODE_PRIVATE);
                 String clothes = userinfo.getString("username","");//옷 정보 가져오기
-                nametext.setText(clothes + "이다");
+                nametext.setText(clothes + "입니다");
 
 
                 String temp=tvTemp.getText().toString();
                 String status=tvStatus.getText().toString();
 
-                int tempInt = Integer.parseInt(temp);
+                double tempDouble = Double.parseDouble(temp);
 
                 String name="옷";
                 String clothesup="상의"; //날씨에 따른 상의
@@ -168,32 +168,32 @@ public class activity_weather extends Activity {
 
 
 
-                if (tempInt>28){ //날씨와 어울리는 상의 추천
+                if (tempDouble>28){ //날씨와 어울리는 상의 추천
                     clothesup="민소매, 린넨 옷";
                     clothesdown="반바지, 치마, 린넨 바지";
                 }
-                else if (28>=tempInt && tempInt>22){
+                else if (28>=tempDouble && tempDouble>22){
                     clothesup="얇은 셔츠, 반팔";
                     clothesdown="반바지, 면 바지";
 
                 }
-                else if (22>=tempInt && tempInt>19){
+                else if (22>=tempDouble && tempDouble>19){
                     clothesup="블라우스, 긴팔 티";
                     clothesdown="면 바지, 슬랙스";
                 }
-                else if (19>=tempInt && tempInt>16){
+                else if (19>=tempDouble && tempDouble>16){
                     clothesup="맨투맨, 후드티, 얇은 가디건";
                     clothesdown="긴 바지";
                 }
-                else if (16>=tempInt && tempInt>12){
+                else if (16>=tempDouble && tempDouble>12){
                     clothesup="자켓, 가디건, 니트";
                     clothesdown="청바지";
                 }
-                else if (12>=tempInt && tempInt>9){
+                else if (12>=tempDouble && tempDouble>9){
                     clothesup="야상, 트렌치 코트, 점퍼";
                     clothesdown="기모바지";
                 }
-                else if (9>=tempInt && tempInt>4){
+                else if (9>=tempDouble && tempDouble>4){
                     clothesup="울 코트, 가죽 옷";
                     clothesdown="기모바지";
                 }
@@ -269,10 +269,9 @@ public class activity_weather extends Activity {
                 tts.setPitch(1.0f);         // 음성 톤을 1.0배 올려준다.
                 tts.setSpeechRate(1.0f);// 읽는 속도는 기본 설정
                 speechtext="현재 기온은 "+tvTemp.getText().toString()+"로 오늘 날씨는 "+tvStatus.getText().toString()+"입니다. " +
-                        "오늘 날씨에는 " + clothesup +"을 추천 드립니다."
-                        +name +"옷과 어울리는 "+color+" 하의를 추천 드립니다."
-                        +
-                        "옷을 재인식하고 싶으시면 하단의 버튼을 눌러주세요.";
+                        "오늘 날씨에는 " + clothesup +"을 추천 드립니다. "
+                        +name +"옷과 어울리는 "+color+" 하의를 추천 드립니다. " +
+                        "옷을 재인식하고 싶으시면 하단의 버튼을 눌러주세요. ";
                 tts.speak(speechtext, TextToSpeech.QUEUE_FLUSH, null);
                 Toast.makeText(activity_weather.this, speechtext, Toast.LENGTH_SHORT).show();
 
@@ -363,7 +362,7 @@ public class activity_weather extends Activity {
 
                 Long updatedAt = jsonObj.getLong("dt");
                 String updatedAtText = "업데이트 : " + new SimpleDateFormat("yyyy/MM/dd hh:mm a", Locale.KOREA).format(new Date(updatedAt * 1000));
-                String temp = main.getString("temp") + "도";
+                String temp = main.getString("temp");
                 String tempMin = main.getString("temp_min") + "도";
                 String tempMax = main.getString("temp_max") + "도";
 
