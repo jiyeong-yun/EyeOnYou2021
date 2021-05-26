@@ -273,7 +273,7 @@ public class activity_weather extends Activity {
                         +name +"옷과 어울리는 "+color+" 하의를 추천 드립니다. " +
                         "옷을 재인식하고 싶으시면 하단의 버튼을 눌러주세요. ";
                 tts.speak(speechtext, TextToSpeech.QUEUE_FLUSH, null);
-                Toast.makeText(activity_weather.this, speechtext, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(activity_weather.this, speechtext, Toast.LENGTH_SHORT).show();
 
 
 

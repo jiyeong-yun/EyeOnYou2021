@@ -96,7 +96,7 @@ public abstract class CameraActivity extends Activity
     }
 
     Button btn_rec = findViewById(R.id.btn_recommend);
-    Button btn_det = findViewById(R.id.btn_detect); // DetectorActivity에서 해줌
+    Button btn_det = findViewById(R.id.btn_detect); // 기능은 DetectorActivity에서 해줌
     final TextView labelTextView = findViewById(R.id.labelTextView);
 
 // TTS를 생성하고 OnInitListener로 초기화 한다.

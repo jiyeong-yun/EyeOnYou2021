@@ -342,9 +342,6 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
                 // ###: getTitle: check_pattern, result.getTitle()로는 모두 가져오기 가능
                 Log.d("###", "getTitle: " + mappedRecognitions.get(0).getTitle());
 
-                //TODO: 어디서 넘겨줘야하지? ,,, intent 안됨 ===> 밑에 방법으로 해결
-                /*Intent intent = new Intent(getApplicationContext(), CameraActivity.class);
-                intent.putExtra("label", mappedRecognitions.toString());*/
               }
 
               //안드로이드 에서는 UI Thread 외부에서 UI 관련 작업을 호출 하면 Exception이 발생한다.
