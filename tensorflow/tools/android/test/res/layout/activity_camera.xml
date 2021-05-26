@@ -55,7 +55,7 @@
             <Button
                 android:id="@+id/btn_recommend"
                 android:layout_width="0dp"
-                android:layout_height="250dp"
+                android:layout_height="200dp"
                 android:layout_weight="1"
                 android:layout_marginRight="10dp"
                 android:text="날씨"
@@ -65,7 +65,7 @@
             <Button
                 android:id="@+id/btn_detect"
                 android:layout_width="0dp"
-                android:layout_height="250dp"
+                android:layout_height="200dp"
                 android:layout_weight="1"
                 android:layout_marginLeft="10dp"
                 android:text="인식"
