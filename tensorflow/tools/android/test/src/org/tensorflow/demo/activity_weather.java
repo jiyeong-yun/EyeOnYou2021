@@ -143,23 +143,140 @@ public class activity_weather extends Activity {
 
 
 
+
     }
 
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                //손가락으로 화면을 누르기 시작했을 때 할 일
+            case MotionEvent.ACTION_DOWN: //손가락으로 화면을 누르기 시작했을 때 할 일
+
+                nametext = findViewById(R.id.textView3);
+                SharedPreferences userinfo = getSharedPreferences("userinfo", MODE_PRIVATE);
+                String clothes = userinfo.getString("username","");//옷 정보 가져오기
+                nametext.setText(clothes + "이다");
+
+
+                String temp=tvTemp.getText().toString();
+                String status=tvStatus.getText().toString();
+
+                int tempInt = Integer.parseInt(temp);
+
+                String name="옷";
+                String clothesup="상의"; //날씨에 따른 상의
+                String clothesdown="하의"; //날씨에 ㄸ른 하의
+                String color="색"; // 날씨+색과 어울리는 색
+
+
+
+                if (tempInt>28){ //날씨와 어울리는 상의 추천
+                    clothesup="민소매, 린넨 옷";
+                    clothesdown="반바지, 치마, 린넨 바지";
+                }
+                else if (28>=tempInt && tempInt>22){
+                    clothesup="얇은 셔츠, 반팔";
+                    clothesdown="반바지, 면 바지";
+
+                }
+                else if (22>=tempInt && tempInt>19){
+                    clothesup="블라우스, 긴팔 티";
+                    clothesdown="면 바지, 슬랙스";
+                }
+                else if (19>=tempInt && tempInt>16){
+                    clothesup="맨투맨, 후드티, 얇은 가디건";
+                    clothesdown="긴 바지";
+                }
+                else if (16>=tempInt && tempInt>12){
+                    clothesup="자켓, 가디건, 니트";
+                    clothesdown="청바지";
+                }
+                else if (12>=tempInt && tempInt>9){
+                    clothesup="야상, 트렌치 코트, 점퍼";
+                    clothesdown="기모바지";
+                }
+                else if (9>=tempInt && tempInt>4){
+                    clothesup="울 코트, 가죽 옷";
+                    clothesdown="기모바지";
+                }
+                else{
+                    clothesup="패딩, 두꺼운 코트";
+                    clothesdown="기모바지";
+                }
+
+                switch (clothes) { //옷정보+날씨정보를 조합한 바지 추천
+                    //맑은 하늘일 때와 구름, 비 때와의 추천 색이 다르다.
+                    case "check_pattern":
+                        name="체크 패턴";
+                        color="민무늬";// 무늬 있는 옷은 전부 민무늬로 변경..?
+                        break;
+                    case "dot_pattern":
+                        name="도트 무늬";
+                        color="민무늬";// 무늬 있는 옷은 전부 민무늬로 변경..?
+                        break;
+                    case "horizontal_striped":
+                        name="가로 스트라이프";
+                        color="민무늬";// 무늬 있는 옷은 전부 민무늬로 변경..?
+                        break;
+                    case "vertical_striped":
+                        name="세로 스트라이프";
+                        color="민무늬";// 무늬 있는 옷은 전부 민무늬로 변경..?
+                        break;
+                    case "leopard":
+                        name="레오파드";
+                        color="민무늬";// 무늬 있는 옷은 전부 민무늬로 변경..?
+                        break;
+                    case "black":
+                        name="검정색";
+                        if (status=="맑은 하늘"){
+                            color="베이지색";
+                        }
+                        else { //맑은 하늘이 아닌 경우(비, 구름 낀 하늘 등)
+                            color="진청색";
+                        }
+                        break;
+                    case "gray":
+                        name="회색";
+                        if (status=="맑은 하늘"){
+                            color="베이지색";
+                        }
+                        else { //맑은 하늘이 아닌 경우(비, 구름 낀 하늘 등)
+                            color="진청색";
+                        }
+
+                        break;
+                    case "blue":
+                        name="파란색";
+                        if (status=="맑은 하늘"){
+                            color="베이지색";
+                       }
+                        else { //맑은 하늘이 아닌 경우(비, 구름 낀 하늘 등)
+                            color="검정색";
+                        }
+                        break;
+                    case "beige":
+                        name="베이지색";
+                        if (status=="맑은 하늘"){
+                            color="연청색, 진청색";
+                        }
+                        else { //맑은 하늘이 아닌 경우(비, 구름 낀 하늘 등)
+                            color="카키색";
+                        }
+                        break;
+                    default:
+                        color="검정색"; //삭제할것 디폴트에 아무것도 없는게 불편해서 넣었다.
+                        break;
+                }
+
                 tts.setPitch(1.0f);         // 음성 톤을 1.0배 올려준다.
-                tts.setSpeechRate(1.0f);    // 읽는 속도는 기본 설정
+                tts.setSpeechRate(1.0f);// 읽는 속도는 기본 설정
                 speechtext="현재 기온은 "+tvTemp.getText().toString()+"로 오늘 날씨는 "+tvStatus.getText().toString()+"입니다. " +
+                        "오늘 날씨에는 " + clothesup +"을 추천 드립니다."
+                        +name +"옷과 어울리는 "+color+" 하의를 추천 드립니다."
+                        +
                         "옷을 재인식하고 싶으시면 하단의 버튼을 눌러주세요.";
                 tts.speak(speechtext, TextToSpeech.QUEUE_FLUSH, null);
                 Toast.makeText(activity_weather.this, speechtext, Toast.LENGTH_SHORT).show();
 
-                nametext = findViewById(R.id.textView3);
-                SharedPreferences userinfo = getSharedPreferences("userinfo", MODE_PRIVATE);
-                String inputName = userinfo.getString("username","");
-                nametext.setText(inputName + "이다");
+
 
                 break;
             case MotionEvent.ACTION_MOVE:
